@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Github User Data</title>
+  <style>
+    #app {
+      text-align: center;
+    }
+
+    img {
+      border-radius: 50%;
+    }
+  </style>
+</head>
+</head>
+
+<body>
+  <div id="app">
+    <h2>Github User Data</h2>
+    <input type="text" name="" id="" v-model='searchInput'>
+    <button type="text" v-on:click='fetchGithubUser'>Carregar Usuário</button>
+    <img :src="avatar_url" alt="User Avatar" width="100">
+    <strong>@{{login}}</strong>
+    <h1>{{name}}</h1>
+    <h1>{{company}}</h1>
+    <h1>{{bio}}</h1>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          name: 'José Alisson',
+          login: 'josealissonif',
+          bio: '....',
+          company: 'Acme Inc',
+          avatar_url: 'https://avatars.githubusercontent.com/u/113787415?v=4',
+
+        }
+      },
+      methods: {
+        async fetchGithubUser() {
+          const res = await fetch(`https://api.github.com/users/${this.searchInput}`)
+          const { login, name, bio, company, avatar_url } = await res.json()
+
+          this.login = login
+          this.name = name
+          this.bio = bio
+          this.company = company
+          this.avatar_url = avatar_url
+        }
+      }
+
+    })
+    app.mount('#app')
+  </script>
+
+</body>
+
+</html>
